@@ -1,10 +1,8 @@
 # Flask Boilerplate
 
-This is based off of [Flask Boilerplate](https://github.com/tko22/flask-boilerplate), but repurposed for MongoDB using MongoEngine.
+This is based off of [Flask Boilerplate](https://github.com/tko22/flask-boilerplate) and also [Mentee](https://github.com/hack4impact-uiuc/mentee), but repurposed for MongoDB using MongoEngine. (This might not be needed)
 
 We use [black](https://github.com/ambv/black) for code formatting, and [mypy](http://mypy-lang.org/) for optional static typing.
-
-![](../master/docs/flask.gif)
 
 ## Remote Database Setup
 Create a `.env` file in this folder with the contents:
@@ -16,7 +14,7 @@ MONGO_HOST=[host uri]
 ```
 Replace the `[xxx]` with your own credentials.
 
-### Server Setup
+### Server Setup **Start Reading From Here**
 
 Make sure you have [Python3](https://realpython.com/installing-python/) and `pip3` installed.
 
