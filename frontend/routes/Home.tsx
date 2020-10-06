@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
+  ActivityIndicator,
   Button,
   StyleSheet,
   Text,
@@ -12,10 +13,15 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function App() {
   const [handle, setHandle] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Call whatever needs to be called for authentication
   const handleSubmit = () => {
     console.log(handle);
+    setIsLoading(true);
+
+    // In the future, this will be set after a successful authentication
+    setTimeout(() => setIsLoading(false), 1500);
   };
 
   return (
@@ -42,10 +48,15 @@ export default function App() {
             onChangeText={(text) => setHandle(text)}
             value={handle}
             onSubmitEditing={handleSubmit}
+            editable={!isLoading}
           />
         </View>
         <TouchableOpacity style={styles.inputButton} onPress={handleSubmit}>
-          <Text style={styles.inputButtonText}>Go →</Text>
+          {isLoading ? (
+            <ActivityIndicator style={styles.inputSpinner} color='#fff' />
+          ) : (
+            <Text style={styles.inputButtonText}>Go →</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -108,6 +119,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     fontSize: 18,
     fontWeight: '500',
+    color: '#222',
   },
   inputButton: {
     borderBottomLeftRadius: 0,
@@ -122,5 +134,8 @@ const styles = StyleSheet.create({
   inputButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  inputSpinner: {
+    paddingHorizontal: 8,
   },
 });
