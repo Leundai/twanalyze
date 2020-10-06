@@ -1,6 +1,6 @@
 # this dockerfile is used for product deployments
 FROM python:3.7
-LABEL maintainer "Kelley Chau <kelleyc2@illinois.edu>"
+LABEL maintainer "MLH PEEPO"
 
 COPY requirements.txt requirements.txt
 RUN apt-get update -y && \
