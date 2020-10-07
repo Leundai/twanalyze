@@ -1,6 +1,6 @@
-# twanalize – Frontend
+# Twanalyze – Frontend
 
-Twanalize uses react-native-web for the frontend.
+Twanalyze uses react-native-web for the frontend.
 
 ## Get up and running
 
@@ -10,7 +10,7 @@ To install the required packages, run `yarn`.
 
 ### Start options
 
-To run twanalize locally, start expo using `yarn start`. Alternatively, you can use one of the following to run a specific platform:
+To run twanalyze locally, start expo using `yarn start`. Alternatively, you can use one of the following to run a specific platform:
 
 `yarn android`: Start the project in android-only mode.
 
