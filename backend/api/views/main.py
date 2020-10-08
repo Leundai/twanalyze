@@ -50,7 +50,7 @@ def create_person():
 
 
 # GET Request for twitter sentiment timeline
-@main.route("/sentiment_timeline", methods=["GET"])
+@main.route("/sentiment-timeline", methods=["GET"])
 def get_newsfeed():
     # TODO: Call functions that deal with sentiment analysis and also sanitization
     return create_response(
