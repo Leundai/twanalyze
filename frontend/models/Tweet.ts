@@ -1,6 +1,6 @@
 export interface Sentiment {
-  score: number;
-  magnitude: number;
+  score: number; // The type of tweet emotion – with Azure, this number is between 0 and 1 (0 is negative, 1 is positive)
+  magnitude: number; // The strength of the tweet emotion
 }
 
 export interface User {
