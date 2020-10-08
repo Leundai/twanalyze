@@ -3353,6 +3353,13 @@ jetifier@^1.6.2:
   resolved "https://registry.yarnpkg.com/jetifier/-/jetifier-1.6.6.tgz#fec8bff76121444c12dc38d2dad6767c421dab68"
   integrity sha512-JNAkmPeB/GS2tCRqUzRPsTOHpGDah7xP18vGJfIjZC+W2sxEHbxgJxetIjIqhjQ3yYbYNEELkM/spKLtwoOSUQ==
 
+jotai@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-0.9.0.tgz#8e421d90c8a403f67a45ea952f652be3fafce5b5"
+  integrity sha512-ChY+Cei4L5Ys8nHSOZfK/gjpxRf8dugemQW2pWXRPYasLlEs0ixfn71qfYuAaAa5P36OAIYr6RjX2EiJJgSqKA==
+  dependencies:
+    use-context-selector "1.2.8"
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -5418,6 +5425,11 @@ url-parse@^1.4.4:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+use-context-selector@1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/use-context-selector/-/use-context-selector-1.2.8.tgz#f505a490a95afb3c96b3f7d262c973a0ef3b19bc"
+  integrity sha512-mQlgVKbX3Dkiq+lS0JsavhyrPpCJ9njDlScNZZJA8nC7QlyimEOnbbQ7wxvyqkHH8GNrRMXGyGHqkYy2bLnKww==
 
 use-subscription@^1.0.0:
   version "1.4.1"

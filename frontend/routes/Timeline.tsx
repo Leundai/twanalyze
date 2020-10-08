@@ -6,7 +6,7 @@ interface Props {}
 const Timeline = (props: Props) => {
   const user = getDummyUserWithTweets();
 
-  return <div>{user.name}</div>;
+  return <pre>{user.name}</pre>;
 };
 
 export default Timeline;
