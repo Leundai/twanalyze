@@ -47,3 +47,12 @@ def create_person():
     return create_response(
         message=f"Successfully created person {new_person.name} with id: {new_person.id}"
     )
+
+
+# GET Request for twitter sentiment timeline
+@main.route("/sentiment_timeline", methods=["GET"])
+def get_newsfeed():
+    # TODO: Call functions that deal with sentiment analysis and also sanitization
+    return create_response(
+        message=f"Successfully sent newsfeed"
+    )
