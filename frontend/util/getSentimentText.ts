@@ -1,25 +1,25 @@
 export const getSentimentScoreText = (score: number) => {
 
     if (score < 0.2) {
-        return 'Incredibly Positive'
+        return 'Incredibly Negative'
     }
     else if (score < 0.35) {
-        return 'Positive'
+        return 'Negative'
     }
     else if (score < 0.45) {
-        return 'Slightly Positive'
+        return 'Slightly Negative'
     }
     else if (score < 0.55) {
         return 'Balanced'
     }
     else if (score < 0.65) {
-        return 'Slightly Negative';
+        return 'Slightly Positive';
     } 
     else if (score < 0.8) {
-        return 'Negative';
+        return 'Positive';
     } 
     else {
-        return 'Incredibly Negative'
+        return 'Incredibly Positive'
     }
 }
 

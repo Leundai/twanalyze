@@ -38,7 +38,7 @@ export default function App() {
             color='#fff'
             style={styles.twitterIcon}
           />
-          <Text style={styles.title}>twanalize</Text>
+          <Text style={styles.title}>twanalyze</Text>
         </View>
         <Text style={styles.subtitle}>
           Find out everything you didn't know about your timeline.
