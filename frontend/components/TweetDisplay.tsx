@@ -3,6 +3,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Tweet } from '../models/Tweet';
 import { getFormattedDate } from '../util/getFormattedDate';
+import SentimentChart, {
+  SentimentChartScore,
+  SentimentChartMagnitude,
+} from './SentimentChart';
 
 interface Props {
   tweet: Tweet;
@@ -12,19 +16,26 @@ const TweetDisplay = ({ tweet }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.horizontalContainer}>
-        <FontAwesome5 name='calendar' style={styles.dateIcon} />
-        <Text style={styles.date}>
-          {getFormattedDate(new Date(tweet.time_created))}
-        </Text>
-      </View>
-      <Text style={styles.text}>{tweet.text}</Text>
-      <View style={styles.horizontalContainer}>
-        <FontAwesome5 name='heart' style={styles.dateIcon} />
-        <Text style={styles.responseText}>{tweet.likes.toLocaleString()}</Text>
-        <FontAwesome5 name='retweet' style={styles.dateIcon} />
-        <Text style={styles.responseText}>
-          {tweet.retweets.toLocaleString()}
-        </Text>
+        <View style={styles.tweetContentContainer}>
+          <View style={styles.horizontalContainer}>
+            <FontAwesome5 name='calendar' style={styles.dateIcon} />
+            <Text style={styles.date}>
+              {getFormattedDate(new Date(tweet.time_created))}
+            </Text>
+          </View>
+          <Text style={styles.text}>{tweet.text}</Text>
+          <View style={styles.horizontalContainer}>
+            <FontAwesome5 name='heart' style={styles.dateIcon} />
+            <Text style={styles.responseText}>
+              {tweet.likes.toLocaleString()}
+            </Text>
+            <FontAwesome5 name='retweet' style={styles.dateIcon} />
+            <Text style={styles.responseText}>
+              {tweet.retweets.toLocaleString()}
+            </Text>
+          </View>
+        </View>
+        <SentimentChart sentiment={tweet.sentiment} />
       </View>
     </View>
   );
@@ -38,6 +49,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     paddingVertical: 20,
     paddingHorizontal: 10,
+  },
+  tweetContentContainer: {
+    flex: 1,
+    marginRight: 20,
   },
   text: {
     color: '#eeeeee',
