@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from api.models import db, Person, Email
+from api.models import db, Person, User, Email
 from api.core import create_response, serialize_list, logger
 
 main = Blueprint("main", __name__)  # initialize blueprint
@@ -21,6 +21,12 @@ def get_persons():
     persons = Person.objects()
     return create_response(data={"persons": persons})
 
+
+# function that is called when you visit /tweets
+@main.route("/tweets", methods=["GET"])
+def get_tweets():
+    tweets = User.objects()
+    return create_response(data={"tweets": tweets})
 
 # POST request for /persons
 @main.route("/persons", methods=["POST"])
