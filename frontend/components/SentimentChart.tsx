@@ -45,14 +45,14 @@ const SentimentChartScore = ({ sentiment }: Props) => {
   // Chart display settings
   // Negative to Positive -> Red to Green
   const r =
-    sentiment.score >= 0.5
-      ? 255
-      : interpolateValue(sentiment.score * 2, 0, 255);
-
-  const g =
     sentiment.score <= 0.5
       ? 255
       : interpolateValue((sentiment.score - 0.5) * 2, 200, 0);
+
+  const g =
+    sentiment.score >= 0.5
+      ? 255
+      : interpolateValue(sentiment.score * 2, 0, 255);
 
   const b = 100;
 
