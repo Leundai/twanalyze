@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { ProgressChartProps } from 'react-native-chart-kit/dist/ProgressChart';
 import { Sentiment } from '../models/Tweet';
