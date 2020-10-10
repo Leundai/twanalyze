@@ -21,7 +21,6 @@ const UserDisplay = ({ user }: Props) => {
           hideLegend
           customImageURI={user.profile_picture}
         />
-        {/* <Image source={{ uri: user.profile_picture }} style={styles.profile} /> */}
         <View style={styles.textContainer}>
           <Text style={styles.name}>{user.name}</Text>
           <Text style={styles.username}>@{user.username}</Text>
