@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#12202C',
-    minH: '100vh',
+    minHeight: '100%',
   },
 });
