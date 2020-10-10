@@ -26,6 +26,7 @@ def get_persons():
 @main.route("/tweets", methods=["GET"])
 def get_tweets():
     tweets = User.objects()
+    print(tweets)
     return create_response(data={"tweets": tweets})
 
 # POST request for /persons
