@@ -31,7 +31,7 @@ def create_twitter_url_req(data_input, call_name):
         )
     elif call_name == "get_timeline":
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&count={}".format(
-            data_input[0], 10
+            data_input[0], mrf
         )
 
     return url
@@ -75,8 +75,8 @@ def sentiment_analysis_example(client, documents):
     return response
 
 
-def analyze(screen_name, kind_of_search):
-    url = create_twitter_url_req([screen_name, 10], kind_of_search)
+def analyze(headers, kind_of_search):
+    url = create_twitter_url_req([headers[0], headers[1]], kind_of_search)
     # bearer_token = process_yaml("search_tweets_api")
     res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
 
@@ -88,8 +88,13 @@ def analyze(screen_name, kind_of_search):
         "profile_picture": res_json["includes"]["users"][0]["profile_image_url"],
         "tweets": [],
     }
-    print(res_json)
     client = authenticate_client(key, endpoint)
+
+
+    positive_avg = 0
+    neutral_avg = 0
+    negative_avg = 0
+
     for tweet in res_json["data"]:
         arr = [tweet["text"]]
         score = sentiment_analysis_example(client, arr)
@@ -110,4 +115,16 @@ def analyze(screen_name, kind_of_search):
                 },
             }
         )
+        positive_avg += score[0].confidence_scores.positive
+        neutral_avg += score[0].confidence_scores.neutral
+        negative_avg += score[0].confidence_scores.negative
+    positive_avg /= headers[1]
+    neutral_avg /= headers[1]
+    negative_avg /= headers[1]
+
+    final_response["average_sentiment"] = {
+        "positive": positive_avg,
+        "neutral": neutral_avg,
+        "negative": negative_avg
+    }
     return final_response
