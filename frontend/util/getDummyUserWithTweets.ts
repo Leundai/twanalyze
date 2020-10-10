@@ -14,7 +14,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Negative',
-        confidence: 0.65,
+        magnitude: {
+          negative: 0.65,
+          positive: 0.2,
+          neutral: 0.15
+        },
       },
       replies: [],
     },
@@ -26,7 +30,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Positive',
-        confidence: 0.35,
+        magnitude: {
+          negative: 0.45,
+          positive: 0.35,
+          neutral: 0.20
+        },
       },
       replies: [],
     },
@@ -38,7 +46,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Positive',
-        confidence: 0.8,
+        magnitude: {
+          negative: 0.45,
+          positive: 0.35,
+          neutral: 0.20
+        },
       },
       replies: [],
     },
@@ -50,7 +62,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Neutral',
-        confidence: 0.6,
+        magnitude: {
+          negative: 0.20,
+          positive: 0.35,
+          neutral: 0.45
+        },
       },
       replies: [],
     },
@@ -62,7 +78,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Mixed',
-        confidence: 0.3,
+        magnitude: {
+          negative: 0.20,
+          positive: 0.35,
+          neutral: 0.45
+        },
       },
       replies: [],
     },
@@ -74,7 +94,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Mixed',
-        confidence: 0.1,
+        magnitude: {
+          negative: 0.20,
+          positive: 0.35,
+          neutral: 0.45
+        },
       },
       replies: [],
     },
@@ -86,7 +110,11 @@ export const getDummyUserWithTweets = (): User => ({
       time_created: '2020-10-08T11:11:37Z', // Might be the incorrect type and may change - date is formatted "2020-10-07T17:09:37Z"
       sentiment: {
         score: 'Negative',
-        confidence: 1,
+        magnitude: {
+          negative: 0.65,
+          positive: 0.2,
+          neutral: 0.15
+        },
       },
       replies: [],
     },

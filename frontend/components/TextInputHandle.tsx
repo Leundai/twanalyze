@@ -1,5 +1,6 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import { useAtom } from 'jotai';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -8,16 +9,23 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
+import { SentimentRouteResult } from '../models/SentimentRouteResult';
+import { searchAtom } from '../state/searchAtom';
+import { userAtom } from '../state/userAtom';
 
-interface Props {
-  onSubmitHandle: (handle: string) => void;
-  isLoading: boolean;
-}
+interface Props {}
 
-const TextInputHandle = ({ onSubmitHandle, isLoading }: Props) => {
-  const [handle, setHandle] = useState('');
+const TextInputHandle = (props: Props) => {
+  const [searchInformation, setSearchInformation] = useAtom(searchAtom);
+  const [handle, setHandle] = useState(searchInformation.handle);
+  const [user, setUser] = useAtom(userAtom);
 
-  const onSubmit = () => onSubmitHandle(handle);
+  const onSubmit = async () => {
+    setSearchInformation({
+      ...searchInformation,
+      handle,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -29,11 +37,11 @@ const TextInputHandle = ({ onSubmitHandle, isLoading }: Props) => {
           onChangeText={(text) => setHandle(text)}
           value={handle}
           onSubmitEditing={onSubmit}
-          editable={!isLoading}
+          editable={!searchInformation.isLoading}
         />
       </View>
       <TouchableOpacity style={styles.inputButton} onPress={onSubmit}>
-        {isLoading ? (
+        {searchInformation.isLoading ? (
           <ActivityIndicator style={styles.inputSpinner} color='#fff' />
         ) : (
           <Text style={styles.inputButtonText}>Go →</Text>

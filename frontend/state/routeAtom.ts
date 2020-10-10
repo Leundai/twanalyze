@@ -6,4 +6,4 @@ export enum Routes {
   Dashboard,
 }
 
-export const routeAtom = atom(Routes.Timeline);
+export const routeAtom = atom(Routes.Home);

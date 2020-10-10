@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { ProgressChart } from 'react-native-chart-kit';
 import { ProgressChartProps } from 'react-native-chart-kit/dist/ProgressChart';
 import { Sentiment } from '../models/Tweet';
+import { getSentimentColor } from '../util/getSentimentColor';
 import {
   getSentimentMagnitudeText,
   getSentimentScoreText,
@@ -86,30 +87,44 @@ const SentimentChartMagnitude = ({ sentiment }: Props) => {
   // const MAGNITUDE_FACTOR = 0.2;
   // const adjustedMagnitude = sentiment.confidence * MAGNITUDE_FACTOR;
 
+  let confidence = sentiment.magnitude.positive;
+  if (
+    sentiment.magnitude.negative > sentiment.magnitude.neutral &&
+    sentiment.magnitude.negative > sentiment.magnitude.positive
+  ) {
+    confidence = sentiment.magnitude.negative;
+  } else if (
+    sentiment.magnitude.neutral > sentiment.magnitude.negative &&
+    sentiment.magnitude.neutral > sentiment.magnitude.positive
+  ) {
+    confidence = sentiment.magnitude.neutral;
+  }
+
   const data = {
-    data: [sentiment.confidence],
+    data: [confidence],
   };
 
   // Chart display settings
   // Apathetic to Emotional -> Gray to Purple
-  const r = interpolateValue(sentiment.confidence, 200, 255);
-  const g = interpolateValue(sentiment.confidence, 200, 0);
-  const b = interpolateValue(sentiment.confidence, 200, 255);
+  const r = interpolateValue(confidence, 200, 255);
+  const g = interpolateValue(confidence, 200, 0);
+  const b = interpolateValue(confidence, 200, 255);
 
-  const opacity =
-    sentiment.confidence < 0.25
-      ? 0.25
-      : sentiment.confidence > 0.75
-      ? 0.75
-      : sentiment.confidence;
+  const opacity = confidence < 0.5 ? 0.25 : confidence > 0.6 ? 0.6 : confidence;
+
+  const color = getSentimentColor(sentiment.score, opacity);
 
   const scoreChartConfig = {
     ...defaultChartConfig,
     // color: () => `rgba(${r}, ${g}, ${b}, ${CHART_OPACITY})`,
-    color: () => `rgba(${150}, ${150}, ${150}, ${opacity})`,
+    // color: () => `rgba(${150}, ${150}, ${150}, ${opacity})`,
+    color: () => getSentimentColor(sentiment.score, opacity),
   };
 
-  const text = getSentimentMagnitudeText(sentiment.confidence);
+  // Capitalize score
+  const scoreText =
+    sentiment.score.charAt(0).toUpperCase() + sentiment.score.slice(1);
+
   return (
     <View style={styles.containerTest}>
       <ProgressChart
@@ -118,10 +133,16 @@ const SentimentChartMagnitude = ({ sentiment }: Props) => {
         chartConfig={scoreChartConfig}
       />
       <SentimentChartScoreIcon sentiment={sentiment} opacity={opacity} />
-      <Text style={styles.label}>{sentiment.score}</Text>
+      <Text style={styles.label}>{scoreText}</Text>
       {/* <Text style={styles.label}>{text}</Text> */}
       <Text style={styles.dataDisplay}>
-        Confidence: {sentiment.confidence * 100}%
+        Positive: {Math.round(sentiment.magnitude.positive * 100)}%
+      </Text>
+      <Text style={styles.dataDisplay}>
+        Negative: {Math.round(sentiment.magnitude.negative * 100)}%
+      </Text>
+      <Text style={styles.dataDisplay}>
+        Neutral: {Math.round(sentiment.magnitude.neutral * 100)}%
       </Text>
     </View>
   );

@@ -1,10 +1,13 @@
 import { useAtom } from 'jotai';
 import React from 'react';
+import useMonitorHandleForFetching from '../hooks/useMonitorHandle';
 import { routeAtom, Routes } from '../state/routeAtom';
 import Home from './Home';
 import Timeline from './Timeline';
 
-export default function App() {
+export default function Router() {
+  useMonitorHandleForFetching();
+
   const [route, setRoute] = useAtom(routeAtom);
 
   switch (route) {
