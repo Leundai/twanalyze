@@ -6,7 +6,7 @@ import { getSentimentColor } from '../util/getSentimentColor';
 
 interface Props {
   sentiment: Sentiment;
-  opacity: number;
+  opacity?: number;
 }
 
 const SentimentChartScoreIcon = ({ sentiment, opacity }: Props) => {
@@ -31,9 +31,6 @@ export default SentimentChartScoreIcon;
 
 const styles = StyleSheet.create({
   icon: {
-    position: 'absolute',
-    top: 30.5,
-    left: 32.5,
     fontSize: 36,
   },
 });

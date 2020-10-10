@@ -1,18 +1,21 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { ProgressChart } from 'react-native-chart-kit';
-import { ProgressChartProps } from 'react-native-chart-kit/dist/ProgressChart';
-import { Sentiment } from '../models/Tweet';
-import { getSentimentColor } from '../util/getSentimentColor';
 import {
-  getSentimentMagnitudeText,
-  getSentimentScoreText,
-} from '../util/getSentimentText';
-import { interpolateValue } from '../util/interpolateValue';
+  View,
+  Text,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+} from 'react-native';
+import { PieChart } from 'react-native-chart-kit';
+import { ProgressChartProps } from 'react-native-chart-kit/dist/ProgressChart';
+import { Sentiment, SentimentScore } from '../models/Tweet';
+import { getSentimentColor } from '../util/getSentimentColor';
 import SentimentChartScoreIcon from './SentimentChartScoreIcon';
 
 interface Props {
   sentiment: Sentiment;
+  hideLegend?: boolean;
+  customImageURI?: string;
 }
 
 // Shared config for both score and magnitude charts
@@ -39,39 +42,46 @@ const defaultChartProps: ProgressChartProps = {
   paddingLeft: '', // warning: no idea what this does
 };
 
-const SentimentChart = ({ sentiment }: Props) => {
-  let confidence = sentiment.magnitude.positive;
-  if (
-    sentiment.magnitude.negative > sentiment.magnitude.neutral &&
-    sentiment.magnitude.negative > sentiment.magnitude.positive
-  ) {
-    confidence = sentiment.magnitude.negative;
-  } else if (
-    sentiment.magnitude.neutral > sentiment.magnitude.negative &&
-    sentiment.magnitude.neutral > sentiment.magnitude.positive
-  ) {
-    confidence = sentiment.magnitude.neutral;
-  }
+const SentimentChart = ({ sentiment, hideLegend, customImageURI }: Props) => {
+  // let confidence = sentiment.magnitude.positive;
+  // if (
+  //   sentiment.magnitude.negative > sentiment.magnitude.neutral &&
+  //   sentiment.magnitude.negative > sentiment.magnitude.positive
+  // ) {
+  //   confidence = sentiment.magnitude.negative;
+  // } else if (
+  //   sentiment.magnitude.neutral > sentiment.magnitude.negative &&
+  //   sentiment.magnitude.neutral > sentiment.magnitude.positive
+  // ) {
+  //   confidence = sentiment.magnitude.neutral;
+  // }
 
-  const data = {
-    data: [confidence],
-  };
+  // const data = {
+  //   data: [confidence],
+  // };
 
-  // Chart display settings
-  // Apathetic to Emotional -> Gray to Purple
-  const r = interpolateValue(confidence, 200, 255);
-  const g = interpolateValue(confidence, 200, 0);
-  const b = interpolateValue(confidence, 200, 255);
+  const pieData = [
+    {
+      name: 'Positive',
+      score: sentiment.magnitude.positive,
+      color: getSentimentColor(SentimentScore.Positive),
+    },
+    {
+      name: 'Neutral',
+      score: sentiment.magnitude.neutral,
+      color: getSentimentColor(SentimentScore.Neutral),
+    },
+    {
+      name: 'Negative',
+      score: sentiment.magnitude.negative,
+      color: getSentimentColor(SentimentScore.Negative),
+    },
+  ];
 
-  const opacity = confidence < 0.5 ? 0.25 : confidence > 0.6 ? 0.6 : confidence;
-
-  const color = getSentimentColor(sentiment.score, opacity);
-
+  // const opacity = confidence < 0.5 ? 0.25 : confidence > 0.6 ? 0.6 : confidence;
   const scoreChartConfig = {
     ...defaultChartConfig,
-    // color: () => `rgba(${r}, ${g}, ${b}, ${CHART_OPACITY})`,
-    // color: () => `rgba(${150}, ${150}, ${150}, ${opacity})`,
-    color: () => getSentimentColor(sentiment.score, opacity),
+    color: () => getSentimentColor(sentiment.score),
   };
 
   // Capitalize score
@@ -80,23 +90,45 @@ const SentimentChart = ({ sentiment }: Props) => {
 
   return (
     <View style={styles.container}>
-      <ProgressChart
+      {/* <ProgressChart
         {...defaultChartProps}
         data={data}
         chartConfig={scoreChartConfig}
+      /> */}
+      <PieChart
+        {...defaultChartProps}
+        data={pieData}
+        chartConfig={scoreChartConfig}
+        hasLegend={false}
+        absolute
+        accessor='score'
+        paddingLeft='25'
       />
-      <SentimentChartScoreIcon sentiment={sentiment} opacity={opacity} />
-      <Text style={styles.label}>{scoreText}</Text>
-      {/* <Text style={styles.label}>{text}</Text> */}
-      <Text style={styles.dataDisplay}>
-        Positive: {Math.round(sentiment.magnitude.positive * 100)}%
-      </Text>
-      <Text style={styles.dataDisplay}>
-        Negative: {Math.round(sentiment.magnitude.negative * 100)}%
-      </Text>
-      <Text style={styles.dataDisplay}>
-        Neutral: {Math.round(sentiment.magnitude.neutral * 100)}%
-      </Text>
+      <View
+        style={customImageURI ? styles.imageContainer : styles.iconContainer}
+      >
+        {customImageURI ? (
+          <Image source={{ uri: customImageURI }} style={styles.image} />
+        ) : (
+          <SentimentChartScoreIcon sentiment={sentiment} />
+        )}
+      </View>
+      {hideLegend ? (
+        <></>
+      ) : (
+        <>
+          <Text style={styles.label}>{scoreText}</Text>
+          <Text style={styles.dataDisplay}>
+            Positive: {Math.round(sentiment.magnitude.positive * 100)}%
+          </Text>
+          <Text style={styles.dataDisplay}>
+            Negative: {Math.round(sentiment.magnitude.negative * 100)}%
+          </Text>
+          <Text style={styles.dataDisplay}>
+            Neutral: {Math.round(sentiment.magnitude.neutral * 100)}%
+          </Text>
+        </>
+      )}
     </View>
   );
 };
@@ -125,5 +157,32 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
     fontSize: 11,
+  },
+  iconContainer: {
+    backgroundColor: '#0D202D',
+    position: 'absolute',
+    paddingVertical: 5,
+    paddingHorizontal: 7,
+    top: 25.5,
+    left: 25.5,
+    borderRadius: 50,
+  },
+  imageContainer: {
+    backgroundColor: '#0D202D',
+    position: 'absolute',
+    padding: 7,
+    top: 23.25,
+    left: 23.25,
+    borderRadius: 50,
+  },
+  icon: {
+    position: 'absolute',
+    top: 30.5,
+    left: 32.5,
+  },
+  image: {
+    height: 40,
+    width: 40,
+    borderRadius: 25,
   },
 });
