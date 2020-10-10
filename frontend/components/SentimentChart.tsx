@@ -39,54 +39,7 @@ const defaultChartProps: ProgressChartProps = {
   paddingLeft: '', // warning: no idea what this does
 };
 
-const SentimentChartScore = ({ sentiment }: Props) => {
-  // const data = {
-  //   data: [sentiment.score],
-  // };
-
-  // Chart display settings
-  // Negative to Positive -> Red to Green
-  // const r =
-  //   sentiment.score <= 0.5
-  //     ? 255
-  //     : interpolateValue((sentiment.score - 0.5) * 2, 200, 0);
-
-  // const g =
-  //   sentiment.score >= 0.5
-  //     ? 255
-  //     : interpolateValue(sentiment.score * 2, 0, 255);
-
-  // const b = 100;
-  // const color = `rgba(${r}, ${g}, ${b}, ${CHART_OPACITY})`;
-
-  // const scoreChartConfig = {
-  //   ...defaultChartConfig,
-  //   color: () => `rgba(${r}, ${g}, ${b}, ${CHART_OPACITY})`,
-  // };
-
-  // const text = getSentimentScoreText(sentiment.score);
-
-  return (
-    <View>
-      {/* <ProgressChart
-        {...defaultChartProps}
-        data={data}
-        chartConfig={scoreChartConfig}
-      /> */}
-      {/* <SentimentChartScoreIcon score={sentiment.score} /> */}
-      <Text style={styles.label}>{sentiment.score}</Text>
-      {/* <Text style={styles.dataDisplay}>Score: {sentiment.score}</Text> */}
-    </View>
-  );
-};
-
-const SentimentChartMagnitude = ({ sentiment }: Props) => {
-  // The sentiment magnitude can only be displayed as a number from 0 to 1.
-  // After obtaining real sentiment data, adjust this value so that the maximum
-  // possible adjusted magnitude is 1.0.
-  // const MAGNITUDE_FACTOR = 0.2;
-  // const adjustedMagnitude = sentiment.confidence * MAGNITUDE_FACTOR;
-
+const SentimentChart = ({ sentiment }: Props) => {
   let confidence = sentiment.magnitude.positive;
   if (
     sentiment.magnitude.negative > sentiment.magnitude.neutral &&
@@ -126,7 +79,7 @@ const SentimentChartMagnitude = ({ sentiment }: Props) => {
     sentiment.score.charAt(0).toUpperCase() + sentiment.score.slice(1);
 
   return (
-    <View style={styles.containerTest}>
+    <View style={styles.container}>
       <ProgressChart
         {...defaultChartProps}
         data={data}
@@ -148,18 +101,10 @@ const SentimentChartMagnitude = ({ sentiment }: Props) => {
   );
 };
 
-const SentimentChart = ({ sentiment }: Props) => {
-  return (
-    <View style={styles.container}>
-      <SentimentChartMagnitude sentiment={sentiment} />
-    </View>
-  );
-};
-
 export default SentimentChart;
 
 const styles = StyleSheet.create({
-  containerTest: {
+  container: {
     position: 'relative',
   },
   iconTest: {
@@ -167,9 +112,6 @@ const styles = StyleSheet.create({
     top: 30.5,
     left: 32.5,
     fontSize: 36,
-  },
-  container: {
-    flexDirection: 'row',
   },
   label: {
     color: '#ffffff',
