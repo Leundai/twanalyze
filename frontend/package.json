@@ -17,7 +17,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-chart-kit": "^6.6.1",
     "react-native-svg": "^12.1.0",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "react-query": "^2.23.1"
   },
   "devDependencies": {
     "@types/react": "~16.9.35",

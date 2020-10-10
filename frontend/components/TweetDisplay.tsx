@@ -13,13 +13,15 @@ const TweetDisplay = ({ tweet }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.tweetContentContainer}>
-        <View style={styles.horizontalContainer}>
-          <FontAwesome5 name='calendar' style={styles.dateIcon} />
-          <Text style={styles.date}>
-            {getFormattedDate(new Date(tweet.time_created))}
-          </Text>
+        <View>
+          <View style={styles.horizontalContainer}>
+            <FontAwesome5 name='calendar' style={styles.dateIcon} />
+            <Text style={styles.date}>
+              {getFormattedDate(new Date(tweet.time_created))}
+            </Text>
+          </View>
+          <Text style={styles.text}>{tweet.text}</Text>
         </View>
-        <Text style={styles.text}>{tweet.text}</Text>
         <View style={styles.horizontalContainer}>
           <FontAwesome5 name='heart' style={styles.dateIcon} />
           <Text style={styles.responseText}>
@@ -45,10 +47,12 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     flexDirection: 'row',
+    width: '100%',
   },
   tweetContentContainer: {
     flex: 1,
     marginRight: 20,
+    justifyContent: 'space-between',
   },
   text: {
     color: '#eeeeee',

@@ -2,6 +2,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
 import { Sentiment, SentimentScore } from '../models/Tweet';
 import { StyleSheet } from 'react-native';
+import { getSentimentColor } from '../util/getSentimentColor';
 
 interface Props {
   sentiment: Sentiment;
@@ -10,40 +11,19 @@ interface Props {
 
 const SentimentChartScoreIcon = ({ sentiment, opacity }: Props) => {
   const { score } = sentiment;
+  const color = getSentimentColor(sentiment.score, opacity);
 
   switch (score) {
-    case 'Positive':
-      return (
-        <FontAwesome5
-          name='smile'
-          color={`rgba(0, 200, 100, ${opacity})`}
-          style={styles.icon}
-        />
-      );
-    case 'Negative':
-      return (
-        <FontAwesome5
-          name='angry'
-          color={`rgba(200, 0, 100, ${opacity})`}
-          style={styles.icon}
-        />
-      );
-    case 'Mixed':
-      return (
-        <FontAwesome5
-          name='surprise'
-          color={`rgba(255, 200, 100, ${opacity})`}
-          style={styles.icon}
-        />
-      );
-    case 'Neutral':
-      return (
-        <FontAwesome5
-          name='meh'
-          color={`rgba(150, 150, 150, ${opacity})`}
-          style={styles.icon}
-        />
-      );
+    case SentimentScore.Positive:
+      return <FontAwesome5 name='smile' color={color} style={styles.icon} />;
+    case SentimentScore.Negative:
+      return <FontAwesome5 name='angry' color={color} style={styles.icon} />;
+    case SentimentScore.Mixed:
+      return <FontAwesome5 name='surprise' color={color} style={styles.icon} />;
+    case SentimentScore.Neutral:
+      return <FontAwesome5 name='meh' color={color} style={styles.icon} />;
+    default:
+      return <FontAwesome5 name='meh' color={color} style={styles.icon} />;
   }
 };
 

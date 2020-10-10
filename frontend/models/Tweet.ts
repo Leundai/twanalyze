@@ -1,8 +1,17 @@
-export type SentimentScore = 'Positive' | 'Negative' | 'Mixed' | 'Neutral'
+export enum SentimentScore {
+  Positive = 'positive',
+  Negative = 'negative',
+  Neutral = 'neutral',
+  Mixed = 'mixed'
+}
 
 export interface Sentiment {
   score: SentimentScore; // The type of tweet emotion – with Azure, this number is between 0 and 1 (0 is negative, 1 is positive)
-  confidence: number; // The strength of the tweet emotion
+  magnitude: {
+    positive: number,
+    negative: number,
+    neutral: number
+  }; // The strength of the tweet emotion
 }
 
 export interface User {
