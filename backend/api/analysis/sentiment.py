@@ -84,7 +84,7 @@ def analyze(headers, kind_of_search):
     # TODO IF CAN"T FIND TWEETS OR USERS THERE IS AN ERROR
     final_response = {
         "name": res_json["includes"]["users"][0]["name"],
-        "username": screen_name,
+        "username": headers[0],
         "profile_picture": res_json["includes"]["users"][0]["profile_image_url"],
         "tweets": [],
     }
