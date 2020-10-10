@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { useQuery } from "react-query"
 import { SentimentRouteResult } from "../models/SentimentRouteResult";
 import { searchAtom } from "../state/searchAtom";
-import { userAtom } from "../state/userAtom";
+import { responseAtom } from "../state/responseAtom";
 import { SENTIMENT_ANALYSIS_URL } from "../util/constants";
 
 export const useMonitorHandleForFetching = () => {
     const [searchInformation, setSearchInformation] = useAtom(searchAtom)
-    const [user, setUser] = useAtom(userAtom)
+    const [response, setResponse] = useAtom(responseAtom)
 
     const variable = searchInformation.handle !== '' ? `?username=${searchInformation.handle}` : '';
     const url = SENTIMENT_ANALYSIS_URL + variable
@@ -27,10 +27,10 @@ export const useMonitorHandleForFetching = () => {
 
     useEffect(() => {
         if (data) {
-            setUser(data?.result)
-            console.log(data);
+            setResponse(data)
         }
-    }, [data])
+    }, [data])    
+    
 }
 
 export default useMonitorHandleForFetching
