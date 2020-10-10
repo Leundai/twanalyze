@@ -1,27 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useAtom } from 'jotai';
+import { routeAtom, Routes } from '../state/routeAtom';
+import TextInputHandle from '../components/TextInputHandle';
 
 export default function App() {
-  const [handle, setHandle] = useState('');
+  const [route, setRoute] = useAtom(routeAtom);
   const [isLoading, setIsLoading] = useState(false);
 
   // Call whatever needs to be called for authentication
-  const handleSubmit = () => {
-    console.log(handle);
+  const handleSubmit = (handle: string) => {
     setIsLoading(true);
 
     // In the future, this will be set after a successful authentication
-    setTimeout(() => setIsLoading(false), 1500);
+    setRoute(Routes.Timeline);
+    setIsLoading(false);
   };
 
   return (
@@ -39,26 +34,7 @@ export default function App() {
           Find out everything you didn't know about your timeline.
         </Text>
       </View>
-      <View style={styles.lowerContainer}>
-        <View style={styles.inputContainer}>
-          <FontAwesome5 name='at' style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            autoCorrect={false}
-            onChangeText={(text) => setHandle(text)}
-            value={handle}
-            onSubmitEditing={handleSubmit}
-            editable={!isLoading}
-          />
-        </View>
-        <TouchableOpacity style={styles.inputButton} onPress={handleSubmit}>
-          {isLoading ? (
-            <ActivityIndicator style={styles.inputSpinner} color='#fff' />
-          ) : (
-            <Text style={styles.inputButtonText}>Go →</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+      <TextInputHandle onSubmitHandle={handleSubmit} isLoading={isLoading} />
 
       <StatusBar style='auto' />
     </View>
