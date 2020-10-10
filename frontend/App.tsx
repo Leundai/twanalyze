@@ -1,17 +1,22 @@
+import { Provider } from 'jotai';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Home from './routes/Home';
+import Router from './routes/Router';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Home />
+      <Provider>
+        <Router />
+      </Provider>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: '100%',
+    flex: 1,
+    backgroundColor: '#12202C',
+    minH: '100vh',
   },
 });

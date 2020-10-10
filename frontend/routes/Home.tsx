@@ -2,7 +2,6 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -10,8 +9,11 @@ import {
   View,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useAtom } from 'jotai';
+import { routeAtom, Routes } from '../state/routeAtom';
 
 export default function App() {
+  const [route, setRoute] = useAtom(routeAtom);
   const [handle, setHandle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,10 @@ export default function App() {
     setIsLoading(true);
 
     // In the future, this will be set after a successful authentication
-    setTimeout(() => setIsLoading(false), 1500);
+    setTimeout(() => {
+      setIsLoading(false);
+      setRoute(Routes.Timeline);
+    }, 500);
   };
 
   return (
