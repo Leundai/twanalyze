@@ -1,5 +1,5 @@
 import os
-import requests 
+import requests
 import json
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
@@ -7,44 +7,55 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def process_env(api_name) : 
-    if api_name == "search_tweets_api" : 
+
+def process_env(api_name):
+    if api_name == "search_tweets_api":
         return os.environ.get("bearer_token")
-    elif api_name == "azure" : 
+    elif api_name == "azure":
         return os.environ.get("subscription_key"), os.environ.get("endpoint")
-    else : 
-        return None 
+    else:
+        return None
 
-def create_twitter_url_req (data_input, call_name ) : 
 
-    if call_name == "recent_search" : 
+def create_twitter_url_req(data_input, call_name):
+
+    if call_name == "recent_search":
         mrf = "max_results={}".format(data_input[1])
         q = "query=from:{}".format(data_input[0])
-        url = "https://api.twitter.com/2/tweets/search/recent?{}&{}&tweet.fields=created_at,public_metrics&expansions=author_id&user.fields=name,profile_image_url".format( mrf, q)
-    elif call_name == "get_tweet" : 
-        url = "https://api.twitter.com/2/tweets?ids={}&tweet.fields=created_at,in_reply_to_user_id&expansions=author_id,in_reply_to_user_id".format(data_input[0])
-    elif call_name == "get_timeline" :
-        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&count={}".format(data_input[0], 10)
+        url = "https://api.twitter.com/2/tweets/search/recent?{}&{}&tweet.fields=created_at,public_metrics&expansions=author_id&user.fields=name,profile_image_url".format(
+            mrf, q
+        )
+    elif call_name == "get_tweet":
+        url = "https://api.twitter.com/2/tweets?ids={}&tweet.fields=created_at,in_reply_to_user_id&expansions=author_id,in_reply_to_user_id".format(
+            data_input[0]
+        )
+    elif call_name == "get_timeline":
+        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&count={}".format(
+            data_input[0], 10
+        )
 
-    return url 
+    return url
 
-def twitter_auth_and_connect(bearer_token, url) : 
-    headers = {"Authorization" : "Bearer {}".format(bearer_token) }
+
+def twitter_auth_and_connect(bearer_token, url):
+    headers = {"Authorization": "Bearer {}".format(bearer_token)}
     response = requests.request("GET", url, headers=headers)
-    return response.json() 
+    return response.json()
+
 
 def authenticate_client(key, endpoint):
     ta_credential = AzureKeyCredential(key)
     text_analytics_client = TextAnalyticsClient(
-            endpoint=endpoint, 
-            credential=ta_credential, 
-            )
+        endpoint=endpoint,
+        credential=ta_credential,
+    )
     return text_analytics_client
 
+
 def sentiment_analysis_example(client, documents):
-    
-    response = client.analyze_sentiment(documents = documents)
-    
+
+    response = client.analyze_sentiment(documents=documents)
+
     # For Debugging
     # print("Document Sentiment: {}".format(response.sentiment))
     # print("Overall scores: positive={0:.2f}; neutral={1:.2f}; negative={2:.2f} \n".format(
@@ -64,37 +75,39 @@ def sentiment_analysis_example(client, documents):
     return response
 
 
-def analyze(screen_name, kind_of_search) : 
-    url = create_twitter_url_req([screen_name, 10], kind_of_search )
-    #bearer_token = process_yaml("search_tweets_api") 
+def analyze(screen_name, kind_of_search):
+    url = create_twitter_url_req([screen_name, 10], kind_of_search)
+    # bearer_token = process_yaml("search_tweets_api")
     res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
-    
-    key, endpoint = process_env("azure") 
+
+    key, endpoint = process_env("azure")
     # TODO IF CAN"T FIND TWEETS OR USERS THERE IS AN ERROR
     final_response = {
-        'name': res_json['includes']['users'][0]['name'],
-        'username': screen_name,
-        'profile_picture': res_json['includes']['users'][0]['profile_image_url'],
-        'tweets': []
-        }
+        "name": res_json["includes"]["users"][0]["name"],
+        "username": screen_name,
+        "profile_picture": res_json["includes"]["users"][0]["profile_image_url"],
+        "tweets": [],
+    }
     print(res_json)
     client = authenticate_client(key, endpoint)
-    for tweet in res_json['data']:
-        arr = [tweet['text']]
+    for tweet in res_json["data"]:
+        arr = [tweet["text"]]
         score = sentiment_analysis_example(client, arr)
-        metrics = tweet['public_metrics']
-        final_response['tweets'].append({
-            'text': tweet['text'],
-            'likes': metrics['like_count'],
-            'retweets': metrics['retweet_count'],
-            'time_created': tweet['created_at'],
-            'sentiment': {
-                'score': score[0].sentiment,
-                'magnitude': {
-                    'positive': score[0].confidence_scores.positive,
-                    'neutral': score[0].confidence_scores.neutral,
-                    'negative':score[0].confidence_scores.negative
-                }
+        metrics = tweet["public_metrics"]
+        final_response["tweets"].append(
+            {
+                "text": tweet["text"],
+                "likes": metrics["like_count"],
+                "retweets": metrics["retweet_count"],
+                "time_created": tweet["created_at"],
+                "sentiment": {
+                    "score": score[0].sentiment,
+                    "magnitude": {
+                        "positive": score[0].confidence_scores.positive,
+                        "neutral": score[0].confidence_scores.neutral,
+                        "negative": score[0].confidence_scores.negative,
+                    },
+                },
             }
-        })
+        )
     return final_response
