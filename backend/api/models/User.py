@@ -1,6 +1,5 @@
 from api.core import Mixin
 from .base import db
-from api.models import Email
 from flask_mongoengine import Document
 from mongoengine import *
 
@@ -8,17 +7,17 @@ from mongoengine import *
 class User(Document, Mixin):
     """User Collection."""
 
-    class Tweet(EmbeddedDocument):
+    class Tweet(EmbeddedDocument, Mixin):
 
-        class Sentiment(EmbeddedDocument):
+        class Sentiment(EmbeddedDocument, Mixin):
             score = FloatField(required=True)
             magnitude = FloatField(required=True)
 
-        class ReplySentiment(EmbeddedDocument):
+        class ReplySentiment(EmbeddedDocument, Mixin):
             score = FloatField(required=True)
             magnitude = FloatField(required=True)
 
-        class Reply(EmbeddedDocument):
+        class Reply(EmbeddedDocument, Mixin):
             name = StringField(required=True)
             username = StringField(required=True)
             text = StringField(required=True)
