@@ -55,9 +55,14 @@ def create_person():
 def get_newsfeed():
     # TODO: Call functions that deal with sentiment analysis and also sanitization
 
-    data = request.args.get("username", default="Minecraft", type=str)
-    analysis = analyze(data, "recent_search")
-    print("TEST")
+    username = request.args.get("username", default="Minecraft", type=str)
+    max_tweets = request.args.get("max_tweets", default=10, type=int)
+
+    if max_tweets < 10:
+        max_tweets = 10
+
+    headers = [username, max_tweets]
+    analysis = analyze(headers, "recent_search")
     return create_response(
         message=f"Successfully sent sentiment analyzed tweets", data=analysis
     )
