@@ -1,66 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import {
-  ActivityIndicator,
-  Button,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import React, { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { useAtom } from 'jotai';
+import { routeAtom, Routes } from '../state/routeAtom';
+import TextInputHandle from '../components/TextInputHandle';
+import { userAtom } from '../state/userAtom';
+import Logo from '../components/Logo';
 
 export default function App() {
-  const [handle, setHandle] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [_, setRoute] = useAtom(routeAtom);
+  const [user] = useAtom(userAtom);
 
-  // Call whatever needs to be called for authentication
-  const handleSubmit = () => {
-    console.log(handle);
-    setIsLoading(true);
-
-    // In the future, this will be set after a successful authentication
-    setTimeout(() => setIsLoading(false), 1500);
-  };
+  useEffect(() => {
+    if (user) {
+      setRoute(Routes.Timeline);
+    }
+  }, [user]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <View style={styles.titleContainer}>
-          <FontAwesome5
-            name='twitter'
-            color='#fff'
-            style={styles.twitterIcon}
-          />
-          <Text style={styles.title}>twanalyze</Text>
-        </View>
-        <Text style={styles.subtitle}>
-          Find out everything you didn't know about your timeline.
-        </Text>
-      </View>
-      <View style={styles.lowerContainer}>
-        <View style={styles.inputContainer}>
-          <FontAwesome5 name='at' style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            autoCorrect={false}
-            onChangeText={(text) => setHandle(text)}
-            value={handle}
-            onSubmitEditing={handleSubmit}
-            editable={!isLoading}
-          />
-        </View>
-        <TouchableOpacity style={styles.inputButton} onPress={handleSubmit}>
-          {isLoading ? (
-            <ActivityIndicator style={styles.inputSpinner} color='#fff' />
-          ) : (
-            <Text style={styles.inputButtonText}>Go →</Text>
-          )}
-        </TouchableOpacity>
-      </View>
-
-      <StatusBar style='auto' />
+      <Logo showSubtitle />
+      <TextInputHandle />
     </View>
   );
 }
@@ -71,31 +30,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#12202C',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  textContainer: {
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  twitterIcon: {
-    color: '#fff',
-    fontSize: 36,
-    fontWeight: '700',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 48,
-    fontWeight: '700',
-    marginLeft: 15,
-  },
-  subtitle: {
-    marginTop: 5,
-    fontSize: 18,
-    color: '#eee',
   },
   lowerContainer: {
     flexDirection: 'row',
