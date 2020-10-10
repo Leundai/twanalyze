@@ -38,20 +38,17 @@ const TweetDisplay = ({ tweet }: Props) => {
 
 export default TweetDisplay;
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   container: {
     borderColor: '#35444E',
     borderTopWidth: 2,
     paddingVertical: 20,
     paddingHorizontal: 10,
-    flexDirection: SCREEN_WIDTH > 600 ? 'row' : 'column',
+    flexDirection: 'row',
   },
   tweetContentContainer: {
     flex: 1,
-    marginRight: SCREEN_WIDTH > 600 ? 20 : 0,
-    marginBottom: SCREEN_WIDTH > 600 ? 0 : 20,
+    marginRight: 20,
   },
   text: {
     color: '#eeeeee',
