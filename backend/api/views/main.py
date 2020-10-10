@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from api.models import db, Person, Email
 from api.core import create_response, serialize_list, logger
+from api.analysis.sentiment import analyze
 
 main = Blueprint("main", __name__)  # initialize blueprint
 
@@ -50,9 +51,13 @@ def create_person():
 
 
 # GET Request for twitter sentiment timeline
-@main.route("/sentiment-timeline", methods=["GET"])
+@main.route("/sentiment-tweets", methods=["GET"])
 def get_newsfeed():
     # TODO: Call functions that deal with sentiment analysis and also sanitization
+
+    data = request.args.get("username", default="Minecraft", type=str)
+    analysis = analyze(data, "recent_search")
+    print("TEST")
     return create_response(
-        message=f"Successfully sent newsfeed"
+        message=f"Successfully sent sentiment analyzed tweets", data=analysis
     )
