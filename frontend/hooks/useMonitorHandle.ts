@@ -28,6 +28,7 @@ export const useMonitorHandleForFetching = () => {
     useEffect(() => {
         if (data) {
             setUser(data?.result)
+            console.log(data);
         }
     }, [data])
 }
