@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import Router from './routes/Router';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
-import useMonitorHandleForFetching from './hooks/useMonitorHandle';
 import { StatusBar } from 'expo-status-bar';
 
 const queryCache = new QueryCache();
