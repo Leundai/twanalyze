@@ -43,6 +43,7 @@ def create_twitter_url_req(data_input, call_name):
 def twitter_auth_and_connect(bearer_token, url):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
     response = requests.request("GET", url, headers=headers)
+
     return response.json()
 
 ### Input: key (str), endpoint (str)
@@ -82,20 +83,27 @@ def sentiment_analysis_example(client, documents):
 ### Input: headers (list), kind_of_search (str)
 ### Performs a sentimental analysis utilizing the Twitter/Azure API and returns a json structured response 
 def analyze(headers, kind_of_search):
+
+    ### Authenticate on Twitter and return if username is invalid or empty tweets 
     url = create_twitter_url_req([headers[0], headers[1]], kind_of_search)
-    # bearer_token = process_yaml("search_tweets_api")
     res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
 
+    if res_json["meta"]["result_count"] == 0 : 
+        print("Failed request")
+        return "200 Error"
+
+    ### Authenticate on Azure and run through sentimental analysis 
     key, endpoint = process_env("azure")
-    # TODO IF CAN"T FIND TWEETS OR USERS THERE IS AN ERROR
+    client = authenticate_client(key, endpoint)
+
+    ### Formulate the Final Response JSON structure 
     final_response = {
         "name": res_json["includes"]["users"][0]["name"],
         "username": headers[0],
         "profile_picture": res_json["includes"]["users"][0]["profile_image_url"],
         "tweets": [],
     }
-    client = authenticate_client(key, endpoint)
-
+    
 
     positive_avg = 0
     neutral_avg = 0
