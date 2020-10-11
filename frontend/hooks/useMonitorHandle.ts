@@ -14,7 +14,13 @@ export const useMonitorHandleForFetching = () => {
     const url = SENTIMENT_ANALYSIS_URL + variable
 
     const { isLoading, error, data } = useQuery(url, () =>
-        fetch(url).then(async (res) => await res.json() as SentimentRouteResult),
+        fetch(url).then(async (res) => await res.json() as SentimentRouteResult).catch(err => {
+            setSearchInformation({
+                ...searchInformation,
+                error: err.message
+            })
+        },
+        ),
         { enabled: searchInformation.handle }
     )
    
@@ -29,7 +35,20 @@ export const useMonitorHandleForFetching = () => {
         if (data) {
             setResponse(data)
         }
-    }, [data])    
+    }, [data])   
+
+    useEffect(() => {
+        if (error) {
+            setSearchInformation({
+                ...searchInformation,
+                error: error as string
+            })
+            
+        }
+    }, [error])    
+
+
+    
     
 }
 
