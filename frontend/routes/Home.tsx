@@ -3,18 +3,18 @@ import { StyleSheet, View } from 'react-native';
 import { useAtom } from 'jotai';
 import { routeAtom, Routes } from '../state/routeAtom';
 import TextInputHandle from '../components/TextInputHandle';
-import { userAtom } from '../state/userAtom';
+import { responseAtom } from '../state/responseAtom';
 import Logo from '../components/Logo';
 
 export default function App() {
   const [_, setRoute] = useAtom(routeAtom);
-  const [user] = useAtom(userAtom);
+  const [response] = useAtom(responseAtom);
 
   useEffect(() => {
-    if (user) {
+    if (response) {
       setRoute(Routes.Timeline);
     }
-  }, [user]);
+  }, [response]);
 
   return (
     <View style={styles.container}>
