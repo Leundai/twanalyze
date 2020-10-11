@@ -14,7 +14,3 @@ run_server:
 heroku_setup:
 	python manage.py recreate_db
 	
-heroku_start:
-	pip install --upgrade pip
-	pip install -r requirements.txt
-	python manage.py runserver

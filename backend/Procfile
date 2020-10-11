@@ -1,2 +1,2 @@
 web: gunicorn manage:app
-worker: make heroku_start
+worker: python manage.py runworker
