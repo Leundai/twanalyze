@@ -124,7 +124,6 @@ def analyze(headers, kind_of_search):
         positive_avg += score[0].confidence_scores.positive
         neutral_avg += score[0].confidence_scores.neutral
         negative_avg += score[0].confidence_scores.negative
-
     positive_avg /= headers[1]
     neutral_avg /= headers[1]
     negative_avg /= headers[1]
@@ -134,5 +133,4 @@ def analyze(headers, kind_of_search):
         "neutral": neutral_avg,
         "negative": negative_avg
     }
-
     return final_response
