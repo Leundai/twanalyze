@@ -5,7 +5,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build": "expo build:web",
+    "deploy": "netlify deploy --prod"
   },
   "dependencies": {
     "@expo/vector-icons": "^10.2.1",
