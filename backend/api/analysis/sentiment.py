@@ -32,8 +32,8 @@ def create_twitter_url_req(data_input, call_name):
             data_input[0]
         )
     elif call_name == "get_timeline":
-        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&count={}".format(
-            data_input[0], mrf
+        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&trim_user=true&exclude_replies=true&include_rts=false&count={}".format(
+            data_input[0], data_input[1]
         )
 
     return url
@@ -87,7 +87,8 @@ def analyze(headers, kind_of_search):
     ### Authenticate on Twitter and return if username is invalid or empty tweets 
     url = create_twitter_url_req([headers[0], headers[1]], kind_of_search)
     res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
-
+    
+    ### Error check 
     if res_json["meta"]["result_count"] == 0 : 
         print("Failed request")
         return "200 Error"
@@ -104,14 +105,18 @@ def analyze(headers, kind_of_search):
         "tweets": [],
     }
     
-
     positive_avg = 0
     neutral_avg = 0
     negative_avg = 0
 
     for tweet in res_json["data"]:
+        ### Checks if given tweet is a retweet or starts with a link 
+        if tweet["text"][0:2] == "RT" or tweet["text"][0:4] == "http" or tweet["text"][0:5] == "https": 
+            continue 
+
         arr = [tweet["text"]]
         score = sentiment_analysis_example(client, arr)
+        # print(score)
         metrics = tweet["public_metrics"]
         final_response["tweets"].append(
             {

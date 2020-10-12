@@ -25,26 +25,33 @@ const TextInputHandle = (props: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name='at' style={styles.inputIcon} />
-        <TextInput
-          style={styles.input}
-          autoCorrect={false}
-          onChangeText={(text) => setHandle(text)}
-          value={handle}
-          onSubmitEditing={onSubmit}
-          editable={!searchInformation.isLoading}
-        />
+    <>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name='at' style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            autoCorrect={false}
+            onChangeText={(text) => setHandle(text)}
+            value={handle}
+            onSubmitEditing={onSubmit}
+            editable={!searchInformation.isLoading}
+          />
+        </View>
+        <TouchableOpacity style={styles.inputButton} onPress={onSubmit}>
+          {searchInformation.isLoading ? (
+            <ActivityIndicator style={styles.inputSpinner} color='#fff' />
+          ) : (
+            <Text style={styles.inputButtonText}>Go →</Text>
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.inputButton} onPress={onSubmit}>
-        {searchInformation.isLoading ? (
-          <ActivityIndicator style={styles.inputSpinner} color='#fff' />
-        ) : (
-          <Text style={styles.inputButtonText}>Go →</Text>
-        )}
-      </TouchableOpacity>
-    </View>
+      {searchInformation.error ? (
+        <Text style={styles.error}>{searchInformation.error}</Text>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
@@ -93,5 +100,9 @@ const styles = StyleSheet.create({
   },
   inputSpinner: {
     paddingHorizontal: 8,
+  },
+  error: {
+    color: '#F5505C',
+    marginTop: 15,
   },
 });
