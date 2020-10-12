@@ -74,9 +74,7 @@
 [![Sentiment Screen shot][product-screenshot2]](https://twanalyze.netlify.app/)
 
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`
+The more emotion there is the more popularity there might be... Or would it be the other way around? With this starting project we can answer these questions and more! Or if you're just curious about some popular twitter figure and how negative or positive they may.
 
 
 ### Built With
@@ -98,7 +96,7 @@ Follow the respective README for both of the components of this app. Both will n
 
 1. Clone the repo
 ```sh
-git clone https://github.com/github_username/repo_name.git
+git clone https://github.com/leundai/twanalyze.git
 ```
 2. Follow the respective README in [Frontend](https://github.com/Leundai/twanalyze/tree/main/frontend) and [Backend](https://github.com/Leundai/twanalyze/tree/main/backend)
 
