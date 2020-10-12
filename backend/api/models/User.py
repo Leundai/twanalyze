@@ -10,6 +10,12 @@ class User(Document, Mixin):
     class Tweet(EmbeddedDocument, Mixin):
 
         class Sentiment(EmbeddedDocument, Mixin):
+
+            class Magnitude(EmbeddedDocument, Mixin):
+                positive = IntField(required=True)
+                neutral = IntField(required=True)
+                negative = IntField(required=True)
+
             score = FloatField(required=True)
             magnitude = FloatField(required=True)
 

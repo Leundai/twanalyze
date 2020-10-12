@@ -33,8 +33,7 @@ def get_tweets():
 # POST request for /persons
 @main.route("/persons", methods=["POST"])
 def create_person():
-    data = request.get_json()
-
+    data = request.get_json(force=True)
     logger.info("Data recieved: %s", data)
     if "name" not in data:
         msg = "No name provided for person."
@@ -56,6 +55,32 @@ def create_person():
         message=f"Successfully created person {new_person.name} with id: {new_person.id}"
     )
 
+# POST request for /tweets
+@main.route("/tweets", methods=["POST"])
+def create_tweet():
+    data = request.get_json(force=True)
+    logger.info("Data recieved: %s", data)
+
+    #  create MongoEngine objects
+    new_user = User(name=data["name"], username=data["username"], profile_picture=data["profile_picture"])
+
+    for tweet in data["tweets"]:
+        tweet_obj = User.Tweet(text=tweet["text"], likes=tweet["likes"], retweets=tweet["retweets"], time_created=tweet["time_created"])
+        sentiment_obj = User.Tweet.Sentiment(score=tweet["sentiment"]["score"])
+        magnitude_ref = tweet["sentiment"]["magnitude"]
+        magnitude_obj = User.Tweet.Sentiment.Magnitude(
+            positive=magnitude_ref["positive"],
+            neutral=magnitude_ref["neutral"],
+            negative=magnitude_ref["negative"])
+        sentiment_obj["magnitude"] = magnitude_obj
+        tweet_obj["sentiment"] = sentiment_obj
+        new_user.tweets.append(tweet_obj)
+
+    new_user.save()
+
+    return create_response(
+        message=f"Successfully created person {new_user.name} with id: {new_user.username}"
+    )
 
 # GET Request for twitter sentiment timeline
 @main.route("/sentiment-tweets", methods=["GET"])
