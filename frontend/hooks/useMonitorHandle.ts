@@ -35,6 +35,7 @@ export const useMonitorHandleForFetching = () => {
         if (data) {
             setResponse(data)
         }
+
     }, [data])   
 
     useEffect(() => {
@@ -49,6 +50,9 @@ export const useMonitorHandleForFetching = () => {
 
 
     
+
+    }, [data])    
+
     
 }
 

@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
+### Input: api_name (str)
+### Returns the corresponding key/endpoint for the inputted API name 
 def process_env(api_name):
     if api_name == "search_tweets_api":
         return os.environ.get("bearer_token")
@@ -16,7 +17,8 @@ def process_env(api_name):
     else:
         return None
 
-
+### Input: data_input (list), call_name (str) 
+### Returns the constructed url used for the GET request for the Twitter API. Url constructed is based on call_name. 
 def create_twitter_url_req(data_input, call_name):
 
     if call_name == "recent_search":
@@ -30,19 +32,22 @@ def create_twitter_url_req(data_input, call_name):
             data_input[0]
         )
     elif call_name == "get_timeline":
-        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&count={}".format(
-            data_input[0], mrf
+        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={}&trim_user=true&exclude_replies=true&include_rts=false&count={}".format(
+            data_input[0], data_input[1]
         )
 
     return url
 
-
+### Input: bearer_token (str), url (str)
+### Authenticates with the Twitter API using the token and url 
 def twitter_auth_and_connect(bearer_token, url):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
     response = requests.request("GET", url, headers=headers)
+
     return response.json()
 
-
+### Input: key (str), endpoint (str)
+### Authenticates with the Azure API using the key and endpoint 
 def authenticate_client(key, endpoint):
     ta_credential = AzureKeyCredential(key)
     text_analytics_client = TextAnalyticsClient(
@@ -51,12 +56,13 @@ def authenticate_client(key, endpoint):
     )
     return text_analytics_client
 
-
+### Input: client (TextAnalyticsClient), documents (json)
+### Calls Azure Text Analytic API and returns the sentimental score in the given json structured input (documents )
 def sentiment_analysis_example(client, documents):
 
     response = client.analyze_sentiment(documents=documents)
 
-    # For Debugging
+    # For Debugging Purposes 
     # print("Document Sentiment: {}".format(response.sentiment))
     # print("Overall scores: positive={0:.2f}; neutral={1:.2f}; negative={2:.2f} \n".format(
     #     response.confidence_scores.positive,
@@ -74,30 +80,43 @@ def sentiment_analysis_example(client, documents):
 
     return response
 
-
+### Input: headers (list), kind_of_search (str)
+### Performs a sentimental analysis utilizing the Twitter/Azure API and returns a json structured response 
 def analyze(headers, kind_of_search):
-    url = create_twitter_url_req([headers[0], headers[1]], kind_of_search)
-    # bearer_token = process_yaml("search_tweets_api")
-    res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
 
+    ### Authenticate on Twitter and return if username is invalid or empty tweets 
+    url = create_twitter_url_req([headers[0], headers[1]], kind_of_search)
+    res_json = twitter_auth_and_connect(process_env("search_tweets_api"), url)
+    
+    ### Error check 
+    if res_json["meta"]["result_count"] == 0 : 
+        print("Failed request")
+        return "200 Error"
+
+    ### Authenticate on Azure and run through sentimental analysis 
     key, endpoint = process_env("azure")
-    # TODO IF CAN"T FIND TWEETS OR USERS THERE IS AN ERROR
+    client = authenticate_client(key, endpoint)
+
+    ### Formulate the Final Response JSON structure 
     final_response = {
         "name": res_json["includes"]["users"][0]["name"],
         "username": headers[0],
         "profile_picture": res_json["includes"]["users"][0]["profile_image_url"],
         "tweets": [],
     }
-    client = authenticate_client(key, endpoint)
-
-
+    
     positive_avg = 0
     neutral_avg = 0
     negative_avg = 0
 
     for tweet in res_json["data"]:
+        ### Checks if given tweet is a retweet or starts with a link 
+        if tweet["text"][0:2] == "RT" or tweet["text"][0:4] == "http" or tweet["text"][0:5] == "https": 
+            continue 
+
         arr = [tweet["text"]]
         score = sentiment_analysis_example(client, arr)
+        # print(score)
         metrics = tweet["public_metrics"]
         final_response["tweets"].append(
             {
