@@ -5,7 +5,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "build": "expo build:web",
+    "deploy": "netlify deploy --prod"
   },
   "dependencies": {
     "@expo/vector-icons": "^10.2.1",
@@ -25,6 +27,7 @@
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
     "react-native-web": "~0.13.7",
+    "serve": "^11.3.2",
     "typescript": "~3.9.5"
   },
   "private": true

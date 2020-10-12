@@ -1,6 +1,6 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Tweet } from '../models/Tweet';
 import { getFormattedDate } from '../util/getFormattedDate';
 import SentimentChart from './SentimentChart';

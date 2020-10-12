@@ -5,13 +5,14 @@ export enum SentimentScore {
   Mixed = 'mixed'
 }
 
+export type SentimentMagnitude = {
+  positive: number,
+  negative: number,
+  neutral: number
+}
 export interface Sentiment {
   score: SentimentScore; // The type of tweet emotion – with Azure, this number is between 0 and 1 (0 is negative, 1 is positive)
-  magnitude: {
-    positive: number,
-    negative: number,
-    neutral: number
-  }; // The strength of the tweet emotion
+  magnitude: SentimentMagnitude; // The strength of the tweet emotion
 }
 
 export interface User {
@@ -19,6 +20,7 @@ export interface User {
   username: string;
   profile_picture: string; // URL to profile picture
   tweets: Tweet[];
+  average_sentiment: SentimentMagnitude
 }
 
 export interface Tweet {

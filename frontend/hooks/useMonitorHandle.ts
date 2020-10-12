@@ -3,18 +3,24 @@ import { useEffect } from "react";
 import { useQuery } from "react-query"
 import { SentimentRouteResult } from "../models/SentimentRouteResult";
 import { searchAtom } from "../state/searchAtom";
-import { userAtom } from "../state/userAtom";
+import { responseAtom } from "../state/responseAtom";
 import { SENTIMENT_ANALYSIS_URL } from "../util/constants";
 
 export const useMonitorHandleForFetching = () => {
     const [searchInformation, setSearchInformation] = useAtom(searchAtom)
-    const [user, setUser] = useAtom(userAtom)
+    const [_, setResponse] = useAtom(responseAtom)
 
     const variable = searchInformation.handle !== '' ? `?username=${searchInformation.handle}` : '';
     const url = SENTIMENT_ANALYSIS_URL + variable
 
     const { isLoading, error, data } = useQuery(url, () =>
-        fetch(url).then(async (res) => await res.json() as SentimentRouteResult),
+        fetch(url).then(async (res) => await res.json() as SentimentRouteResult).catch(err => {
+            setSearchInformation({
+                ...searchInformation,
+                error: err.message
+            })
+        },
+        ),
         { enabled: searchInformation.handle }
     )
    
@@ -27,9 +33,25 @@ export const useMonitorHandleForFetching = () => {
 
     useEffect(() => {
         if (data) {
-            setUser(data?.result)
+            setResponse(data)
+            setSearchInformation({
+                ...searchInformation,
+                isLoading,
+                error: ''
+            })
         }
-    }, [data])
+
+    }, [data])   
+
+    useEffect(() => {
+        if (error) {
+            setSearchInformation({
+                ...searchInformation,
+                error: error as string
+            })
+            
+        }
+    }, [error])    
 }
 
 export default useMonitorHandleForFetching
