@@ -16,8 +16,8 @@ class User(Document, Mixin):
                 neutral = IntField(required=True)
                 negative = IntField(required=True)
 
-            score = FloatField(required=True)
-            magnitude = FloatField(required=True)
+            score = StringField(required=True)
+            magnitude = EmbeddedDocumentField(Magnitude)
 
         class ReplySentiment(EmbeddedDocument, Mixin):
             score = FloatField(required=True)

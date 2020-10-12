@@ -30,6 +30,7 @@ def get_tweets():
     print(tweets)
     return create_response(data={"tweets": tweets})
 
+
 # POST request for /persons
 @main.route("/persons", methods=["POST"])
 def create_person():
