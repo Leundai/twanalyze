@@ -1,3 +1,5 @@
 .vscode
+venv
+.idea
 Sentimental_Test/config.yaml
 node_modules
