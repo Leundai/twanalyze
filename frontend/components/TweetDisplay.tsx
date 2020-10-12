@@ -23,16 +23,10 @@ const TweetDisplay = ({ tweet }: Props) => {
           <Text style={styles.text}>{tweet.text}</Text>
         </View>
         <View style={styles.horizontalContainer}>
-          {tweet.likes > 0 ? (
-            <>
-              <FontAwesome5 name='heart' style={styles.dateIcon} />
-              <Text style={styles.responseText}>
-                {tweet.likes.toLocaleString()}
-              </Text>
-            </>
-          ) : (
-            <></>
-          )}
+          <FontAwesome5 name='heart' style={styles.dateIcon} />
+          <Text style={styles.responseText}>
+            {tweet.likes.toLocaleString()}
+          </Text>
           <FontAwesome5 name='retweet' style={styles.dateIcon} />
           <Text style={styles.responseText}>
             {tweet.retweets.toLocaleString()}
