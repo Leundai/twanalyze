@@ -56,20 +56,17 @@ def create_app(test_config=None):
     root = logging.getLogger("core")
     root.addHandler(strm)
 
-    # user = os.environ.get("MONGO_USER")
-    # password = os.environ.get("MONGO_PASSWORD")
-    # db = os.environ.get("MONGO_DB")
-    # host = os.environ.get("MONGO_HOST")
-    # app.config["MONGODB_SETTINGS"] = {
-    #     "db": db,
-    #     "host": host % (user, password, db),
-    # }
+    user = os.environ.get("MONGO_USER")
+    password = os.environ.get("MONGO_PASSWORD")
+    db = os.environ.get("MONGO_DB")
+    host = os.environ.get("MONGO_HOST")
+    app.config["MONGODB_SETTINGS"] = {"db": db, "host": host % (user, password, db)}
 
     # register mongoengine to this app
-    # from api.models import db
+    from api.models import db
 
-    # db.init_app(app)  # initialize Flask MongoEngine with this flask app
-    # Migrate(app, db)
+    db.init_app(app)  # initialize Flask MongoEngine with this flask app
+    Migrate(app, db)
 
     # import and register blueprints
     from api.views import main, auth
