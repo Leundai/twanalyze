@@ -8,7 +8,7 @@ import { SENTIMENT_ANALYSIS_URL } from "../util/constants";
 
 export const useMonitorHandleForFetching = () => {
     const [searchInformation, setSearchInformation] = useAtom(searchAtom)
-    const [response, setResponse] = useAtom(responseAtom)
+    const [_, setResponse] = useAtom(responseAtom)
 
     const variable = searchInformation.handle !== '' ? `?username=${searchInformation.handle}` : '';
     const url = SENTIMENT_ANALYSIS_URL + variable
@@ -47,13 +47,6 @@ export const useMonitorHandleForFetching = () => {
             
         }
     }, [error])    
-
-
-    
-
-    }, [data])    
-
-    
 }
 
 export default useMonitorHandleForFetching
