@@ -9,8 +9,6 @@ interface Props {
 }
 
 const UserDisplay = ({ user }: Props) => {
-  console.log(user.profile_picture);
-
   const sentiment = getSentimentFromMagnitude(user.average_sentiment);
 
   return (
