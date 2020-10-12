@@ -34,6 +34,11 @@ export const useMonitorHandleForFetching = () => {
     useEffect(() => {
         if (data) {
             setResponse(data)
+            setSearchInformation({
+                ...searchInformation,
+                isLoading,
+                error: ''
+            })
         }
 
     }, [data])   
