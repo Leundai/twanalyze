@@ -7,7 +7,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "build": "expo build:web",
-    "deploy": "netlify deploy --prod"
+    "deploy": "netlify deploy --prod",
+    "redeploy": "yarn build && yarn deploy"
   },
   "dependencies": {
     "@expo/vector-icons": "^10.2.1",
