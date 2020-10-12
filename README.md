@@ -74,7 +74,7 @@
 [![Sentiment Screen shot][product-screenshot2]](https://twanalyze.netlify.app/)
 
 
-The more emotion there is the more popularity there might be... Or would it be the other way around? With this starting project we can answer these questions and more! Or if you're just curious about some popular twitter figure and how negative or positive they may.
+The more emotion there is the more popularity there might be... Or would it be the other way around? With this starting project we can answer these questions and more! Or if you're just curious about some popular twitter figure and how negative or positive they may be.
 
 
 ### Built With
