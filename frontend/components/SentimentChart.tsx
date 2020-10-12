@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-} from 'react-native';
+
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
-import { ProgressChartProps } from 'react-native-chart-kit/dist/ProgressChart';
+
 import { Sentiment, SentimentScore } from '../models/Tweet';
 import { getSentimentColor } from '../util/getSentimentColor';
 import SentimentChartScoreIcon from './SentimentChartScoreIcon';
@@ -18,48 +13,7 @@ interface Props {
   customImageURI?: string;
 }
 
-// Shared config for both score and magnitude charts
-const CHART_OPACITY = 0.7;
-const defaultChartConfig = {
-  backgroundGradientFromOpacity: 0,
-  backgroundGradientToOpacity: 0,
-  strokeWidth: 2, // optional, default 3
-  barPercentage: 0.5,
-  useShadowColorFromDataset: false, // optional
-};
-
-// Shared props for both score and magnitude charts
-const defaultChartProps: ProgressChartProps = {
-  width: 100,
-  height: 100,
-  strokeWidth: 16,
-  radius: 32,
-  data: { data: [] },
-  chartConfig: defaultChartConfig,
-  hideLegend: true,
-  accessor: '', // warning: no idea what this does
-  backgroundColor: 'transparent',
-  paddingLeft: '', // warning: no idea what this does
-};
-
 const SentimentChart = ({ sentiment, hideLegend, customImageURI }: Props) => {
-  // let confidence = sentiment.magnitude.positive;
-  // if (
-  //   sentiment.magnitude.negative > sentiment.magnitude.neutral &&
-  //   sentiment.magnitude.negative > sentiment.magnitude.positive
-  // ) {
-  //   confidence = sentiment.magnitude.negative;
-  // } else if (
-  //   sentiment.magnitude.neutral > sentiment.magnitude.negative &&
-  //   sentiment.magnitude.neutral > sentiment.magnitude.positive
-  // ) {
-  //   confidence = sentiment.magnitude.neutral;
-  // }
-
-  // const data = {
-  //   data: [confidence],
-  // };
-
   const pieData = [
     {
       name: 'Positive',
@@ -78,9 +32,12 @@ const SentimentChart = ({ sentiment, hideLegend, customImageURI }: Props) => {
     },
   ];
 
-  // const opacity = confidence < 0.5 ? 0.25 : confidence > 0.6 ? 0.6 : confidence;
   const scoreChartConfig = {
-    ...defaultChartConfig,
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientToOpacity: 0,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
     color: () => getSentimentColor(sentiment.score),
   };
 
@@ -90,13 +47,10 @@ const SentimentChart = ({ sentiment, hideLegend, customImageURI }: Props) => {
 
   return (
     <View style={styles.container}>
-      {/* <ProgressChart
-        {...defaultChartProps}
-        data={data}
-        chartConfig={scoreChartConfig}
-      /> */}
       <PieChart
-        {...defaultChartProps}
+        width={100}
+        height={100}
+        backgroundColor='transparent'
         data={pieData}
         chartConfig={scoreChartConfig}
         hasLegend={false}

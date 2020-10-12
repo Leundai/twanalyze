@@ -1,6 +1,6 @@
 import { FontAwesome5 } from '@expo/vector-icons';
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Tweet } from '../models/Tweet';
 import { getFormattedDate } from '../util/getFormattedDate';
 import SentimentChart from './SentimentChart';
@@ -23,16 +23,10 @@ const TweetDisplay = ({ tweet }: Props) => {
           <Text style={styles.text}>{tweet.text}</Text>
         </View>
         <View style={styles.horizontalContainer}>
-          {tweet.likes > 0 ? (
-            <>
-              <FontAwesome5 name='heart' style={styles.dateIcon} />
-              <Text style={styles.responseText}>
-                {tweet.likes.toLocaleString()}
-              </Text>
-            </>
-          ) : (
-            <></>
-          )}
+          <FontAwesome5 name='heart' style={styles.dateIcon} />
+          <Text style={styles.responseText}>
+            {tweet.likes.toLocaleString()}
+          </Text>
           <FontAwesome5 name='retweet' style={styles.dateIcon} />
           <Text style={styles.responseText}>
             {tweet.retweets.toLocaleString()}
