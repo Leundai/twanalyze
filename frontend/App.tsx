@@ -5,7 +5,14 @@ import Router from './routes/Router';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { StatusBar } from 'expo-status-bar';
 
-const queryCache = new QueryCache();
+const queryCache = new QueryCache({
+  defaultConfig: {
+    queries: {
+      // Prevent auto-refetching to limit the amount of Azure calls
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 export default function App() {
   return (
