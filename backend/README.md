@@ -1,6 +1,6 @@
-# Twanalyze Flask Backend
+# Flask Boilerplate
 
-This is based off of [Flask Boilerplate](https://github.com/tko22/flask-boilerplate) and also [Mentee](https://github.com/hack4impact-uiuc/mentee), but repurposed for MongoDB using MongoEngine. 
+This is based off of [Flask Boilerplate](https://github.com/tko22/flask-boilerplate) and also [Mentee](https://github.com/hack4impact-uiuc/mentee), but repurposed for MongoDB using MongoEngine. (This might not be needed)
 
 We use [black](https://github.com/ambv/black) for code formatting, and [mypy](http://mypy-lang.org/) for optional static typing.
 
@@ -9,7 +9,7 @@ Create a `.env` file in this folder with the contents:
 ```
 MONGO_USER=[DB username]
 MONGO_PASSWORD=[DB password]
-MONGO_DB=twanalyze
+MONGO_DB=mentee
 MONGO_HOST=[host uri]
 ```
 Replace the `[xxx]` with your own credentials.
@@ -42,6 +42,59 @@ $
 
 Install [Postman](https://www.getpostman.com/downloads/) or your app of choice for testing API calls, and [Compass](https://www.mongodb.com/download-center/compass) to view the contents of the database.
 
+Then, make Postman calls to verify that the server works:
+1. `GET localhost:5000/` should return "Hello World"
+2. `POST localhost:5000/persons` with a JSON body (in Postman as raw JSON) of:
+```json
+{
+    "name": "Hack4Impact",
+    "emails": [
+        "hack4impact@illinois.edu",
+        "contact@hack4impact.org",
+        "uiuc@hack4impact.org"
+    ]
+}
+```
+3. `GET localhost:5000/persons` should return a result similar to:
+```json
+{
+  "message": "",
+  "result": {
+    "persons": [
+      {
+        "_id": {
+          "$oid": "5dacf1047d915d954f8e4291"
+        },
+        "emails": [
+          {
+            "email": "hack4impact@illinois.edu"
+          },
+          {
+            "email": "contact@hack4impact.org"
+          },
+          {
+            "email": "uiuc@hack4impact.org"
+          }
+        ],
+        "name": "Hack4Impact"
+      }
+    ]
+  },
+  "success": true
+}
+```
+
+You can also view the contents of your database by connecting to it in Mongo Compass using the default settings!
+
+## Using Docker
+
+Install [Docker](https://docs.docker.com/get-docker/) if you don't already have it. This app is set up so that you can just run `docker-compose up` and the app will start up for you! This is optional, however- it's not much less effort to run the backend and frontend.
+
+```
+$ sudo dockerd
+$ sudo docker-compose up
+```
+
 ## Repository Contents
 
 - `api/views/` - Holds files that define your endpoints
@@ -53,9 +106,13 @@ Install [Postman](https://www.getpostman.com/downloads/) or your app of choice f
 
 #### Others
 
+- `config.py` - Provides Configuration for the application. There are two configurations: one for development and one for production using Heroku.
 - `manage.py` - Command line interface that allows you to perform common functions with a command
 - `requirements.txt` - A list of python package dependencies the application requires
 - `runtime.txt` & `Procfile` - configuration for Heroku
+- `Dockerfile` - instructions for Docker to build the Flask app
+- `docker-compose.yml` - config to setup this Flask app and a Database
+- `migrations/` - Holds migration files – doesn't exist until you `python manage.py db init` if you decide to not use docker
 
 ### MISC
 
@@ -69,7 +126,9 @@ find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
 
 - [Flask](http://flask.pocoo.org/) - Flask Documentation
 - [Flask Tutorial](http://flask.pocoo.org/docs/1.0/tutorial/) - great tutorial. Many patterns used here were pulled from there.
+- [Flask SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) - the ORM for the database
 - [Heroku](https://devcenter.heroku.com/articles/getting-started-with-python#introduction) - Deployment using Heroku
 - [Learn Python](https://www.learnpython.org/) - Learning Python3
+- [Relational Databases](https://www.ntu.edu.sg/home/ehchua/programming/sql/Relational_Database_Design.html) - Designing a database schema
 - [REST API](http://www.restapitutorial.com/lessons/restquicktips.html) - tips on making an API Restful
-- [MongoDB](http://mongoengine.org/)
+- [Docker Docs](https://docs.docker.com/get-started/) - Docker docs

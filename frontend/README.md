@@ -18,7 +18,6 @@ To run twanalyze locally, start expo using `yarn start`. Alternatively, you can 
 
 `yarn web`: Start the project in web-only mode.
 
-
 ## Build + Deploy Project
 
 To deploy, first run `yarn build` (alternatively, `expo build:web`). This will create the static web files and place them in a directory named "web-build" in the "frontend" directory.
@@ -35,10 +34,3 @@ Then, make sure you're logged in with `netlify login`. Afterwards, you can setup
 
 1. `netlify deploy` -> Deploy the project as a preview and publish it manually
 2. `yarn deploy` (alternatively, `netlify deploy --prod`) -> Deploy and publish the project immediately
-
-## Deploy Project
-
-To deploy, first run `expo build:web`. This will create the static web files and place them in a directory named "web-build" in the "frontend" directory.
-
-Afterwards, call `npx serve web-build` to serve the site.
-

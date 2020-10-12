@@ -53,6 +53,7 @@ def create_person():
 # GET Request for twitter sentiment timeline
 @main.route("/sentiment-tweets", methods=["GET"])
 def get_newsfeed():
+    # TODO: Call functions that deal with sentiment analysis and also sanitization
 
     username = request.args.get("username", default="Minecraft", type=str)
     max_tweets = request.args.get("max_tweets", default=10, type=int)
@@ -60,8 +61,6 @@ def get_newsfeed():
     if max_tweets < 10:
         max_tweets = 10
 
-    ### Calls Sentimental analysis function using recent_search Twitter API call. 
-    ### Future improvements can include different API calls/usage 
     headers = [username, max_tweets]
     analysis = analyze(headers, "recent_search")
     return create_response(
