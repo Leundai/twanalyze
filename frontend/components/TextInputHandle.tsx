@@ -9,16 +9,13 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import { SentimentRouteResult } from '../models/SentimentRouteResult';
 import { searchAtom } from '../state/searchAtom';
-import { userAtom } from '../state/userAtom';
 
 interface Props {}
 
 const TextInputHandle = (props: Props) => {
   const [searchInformation, setSearchInformation] = useAtom(searchAtom);
   const [handle, setHandle] = useState(searchInformation.handle);
-  const [user, setUser] = useAtom(userAtom);
 
   const onSubmit = async () => {
     setSearchInformation({
