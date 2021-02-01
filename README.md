@@ -128,13 +128,6 @@ Distributed under the Apache 2.0 License. See `LICENSE` for more information.
 
 
 
-<!-- CONTACT -->
-## Contact
-
-Project Link: [https://github.com/leundai/twanalyze](https://github.com/leundai/twanalyze)
-
-
-
 <!-- ACKNOWLEDGEMENTS -->
 ## Contributers
 
